@@ -1,0 +1,67 @@
+<div class="calculator">
+  <div>
+    <input
+      type="text"
+      class="calculator-screen"
+      [value]="current || result"
+      disabled
+    />
+  </div>
+  <div>
+    <input
+      type="text"
+      class="calculator-screen"
+      [value]="operand"
+      disabled
+    />
+  </div>
+
+  <div class="calculator-keys">
+    <div class="btns-row">
+      <btn
+        *ngFor="let item of operations"
+        [value]="item"
+        (click)="setOperation(item)"
+      >
+      </btn>
+    </div>
+
+    <div class="btns-row">
+      <btn
+        *ngFor="let num of firstRowNumbers"
+        [value]="num"
+        (click)="addDigit(num)"
+      >
+      </btn>
+    </div>
+
+    <div class="btns-row">
+      <btn
+        *ngFor="let num of secondRowNumbers"
+        [value]="num"
+        (click)="addDigit(num)"
+      >
+      </btn>
+    </div>
+
+    <div class="btns-row">
+      <btn
+        *ngFor="let num of thirdRowNumbers"
+        [value]="num"
+        (click)="addDigit(num)"
+      >
+      </btn>
+    </div>
+
+    <div class="btns-row">
+      <btn (click)="addDigit('0')"></btn>
+      <btn (click)="convertToDecimal()" value="."></btn>
+      <btn (click)="changeSign()" value="+/-"></btn>
+      <btn (click)="clear()" value="CE"></btn>
+    </div>
+
+    <div class="btn-col">
+      <btn value="=" (click)="onEqual()">=</btn>
+    </div>
+  </div>
+</div>
