@@ -1,0 +1,5 @@
+const BASE_URL = 'http://localhost:3000'
+export const SUM_URL = BASE_URL + '/sum/'
+export const SUB_URL = BASE_URL + '/sub/'
+export const MULTI_URL = BASE_URL + '/multi/'
+export const DIV_URL = BASE_URL + '/div/'
