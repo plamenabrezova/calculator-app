@@ -35,3 +35,18 @@ body {
   color: var(--grey-900);
   font-weight: 400;
 }
+
+button {
+  margin: 0.1rem;
+  cursor: pointer;
+  height: 4rem;
+  font-size: 2rem;
+  text-transform: uppercase;
+  border-radius: var(--border-radius);
+  background-color: var(--grey-100);
+  color: var(--grey-900);
+}
+
+button:hover {
+  background-color: var(--accent-900);
+}
