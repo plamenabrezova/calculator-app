@@ -14,8 +14,8 @@ export class MainComponent {
   current: string = '0';
   // second
   operand: string = '';
-  result: string = '';
   operation: string | null = null;
+  startSecondOperand: boolean = false
 
   constructor(private calculateService: CalculateService, activatedRoute: ActivatedRoute) {
     activatedRoute.params.subscribe((params) => {
@@ -42,21 +42,22 @@ export class MainComponent {
     })
   }
 
-  addDigit(digit: string) {
-    if (this.operation === null) {
-      this.current === '0' || this.current === this.result ? this.current = digit : this.current += digit;
+  addDigit(digit: string): void {
+    if (this.startSecondOperand) {
+      this.current = digit
+      this.startSecondOperand = false
     } else {
-      this.operand === '' ? this.operand = digit : this.operand += digit;
+      this.current === '0' ? this.current = digit : this.current += digit
     }
   }
 
-  convertToDecimal() {
+  convertToDecimal(): void {
     if (!this.current.includes('.')) {
       this.current += '.';
     }
   }
 
-  changeSign() {
+  changeSign(): void {
     if (this.current.startsWith('-')) {
       this.current = this.current.slice(1);
     } else {
@@ -64,53 +65,47 @@ export class MainComponent {
     }
   }
 
-  clear() {
+  clear(): void {
     this.current = '0';
     this.operand = '';
-    this.result = '';
     this.operation = null;
   }
 
-  setOperation(operation: string) {
+  setOperation(operation: string): void {
+    if(this.operand === ''){
+      this.operand = this.current;
+    } 
     this.operation = operation;
+    this.startSecondOperand = true;
   }
 
-  onEqual() {
-    if (this.operation === null) {
-      this.result = this.current;
-    } else {
-      if (this.operand === null) {
-        this.operand = this.current;
-      }
-      this.calculate();
-    }
+  onEqual(): void {
+    if (this.operation) this.calculate()
   }
 
-  calculate() {
+  calculate(): void {
     let resultObservable: Observable<Result>
     switch (this.operation) {
       case '+':
-        resultObservable = this.calculateService.sum(Number(this.current), Number(this.operand));
+        resultObservable = this.calculateService.sum(Number(this.operand), Number(this.current));
         break;
       case '-':
-        resultObservable = this.calculateService.subtract(Number(this.current), Number(this.operand))
+        resultObservable = this.calculateService.subtract(Number(this.operand), Number(this.current))
         break
       case '*':
-        resultObservable = this.calculateService.multiply(Number(this.current), Number(this.operand));
+        resultObservable = this.calculateService.multiply(Number(this.operand), Number(this.current));
         break;
       case '/':
-        resultObservable = this.calculateService.division(Number(this.current), Number(this.operand))
+        resultObservable = this.calculateService.division(Number(this.operand), Number(this.current))
         break
       default:
         resultObservable = new Observable<Result>;
     }
 
     resultObservable.subscribe((result) => {
-      this.result = String(Object.values(result)[0]);
-      this.current = this.result;
+      this.current = String(Object.values(result)[0]);
+      this.operand = this.current;
     })
-
-    this.operand = '';
     this.operation = null;
   }
 }
