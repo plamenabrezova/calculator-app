@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { CalculateService } from 'src/app/services/calculator.service';
 import { Result } from 'src/app/shared/models';
@@ -17,7 +17,7 @@ export class MainComponent {
   operation: string | null = null;
   startSecondOperand: boolean = false
 
-  constructor(private calculateService: CalculateService, activatedRoute: ActivatedRoute) {
+  constructor(private calculateService: CalculateService, activatedRoute: ActivatedRoute, private router: Router) {
     activatedRoute.params.subscribe((params) => {
       if ((params['operation'] && ['sum', 'sub', 'multi', 'div'].includes(params['operation']))
         && params['num1'] && params['num2']) {
@@ -39,6 +39,8 @@ export class MainComponent {
         this.current = params['num2'];
         this.operand = params['num1'];
         this.calculate();
+      } else {
+        this.router.navigateByUrl('/')
       }
     })
   }
@@ -73,9 +75,9 @@ export class MainComponent {
   }
 
   setOperation(operation: string): void {
-    if(this.operand === ''){
+    if (this.operand === '') {
       this.operand = this.current;
-    } 
+    }
     this.operation = operation;
     this.startSecondOperand = true;
   }
