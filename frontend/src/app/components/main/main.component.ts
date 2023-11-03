@@ -35,8 +35,9 @@ export class MainComponent {
             this.operation = '/';
             break;
         }
-        this.current = params['num1'];
-        this.operand = params['num2'];
+
+        this.current = params['num2'];
+        this.operand = params['num1'];
         this.calculate();
       }
     })
