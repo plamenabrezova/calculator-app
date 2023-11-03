@@ -1,67 +1,36 @@
-<div class="calculator">
-  <div>
-    <input
-      type="text"
-      class="calculator-screen"
-      [value]="current || result"
-      disabled
-    />
-  </div>
-  <div>
-    <input
-      type="text"
-      class="calculator-screen"
-      [value]="operand"
-      disabled
-    />
-  </div>
+<div class="main">
+  <div class="calculator">
+    <div class="calculator__result">
+      <p>{{ current || result }} {{ operation }} {{ operand }}</p>
+    </div>
 
-  <div class="calculator-keys">
-    <div class="btns-row">
-      <btn
-        *ngFor="let item of operations"
-        [value]="item"
+    <div class="calculator__keys">
+      <button
+        *ngFor="let item of ['+', '-', '*', '/']"
         (click)="setOperation(item)"
       >
-      </btn>
-    </div>
+        {{ item }}
+      </button>
 
-    <div class="btns-row">
-      <btn
-        *ngFor="let num of firstRowNumbers"
-        [value]="num"
-        (click)="addDigit(num)"
-      >
-      </btn>
-    </div>
+      <button *ngFor="let num of ['7', '8', '9']" (click)="addDigit(num)">
+        {{ num }}
+      </button>
 
-    <div class="btns-row">
-      <btn
-        *ngFor="let num of secondRowNumbers"
-        [value]="num"
-        (click)="addDigit(num)"
-      >
-      </btn>
-    </div>
+      <button (click)="clear()" class="clear" value="CE">CE</button>
 
-    <div class="btns-row">
-      <btn
-        *ngFor="let num of thirdRowNumbers"
-        [value]="num"
-        (click)="addDigit(num)"
-      >
-      </btn>
-    </div>
+      <button *ngFor="let num of ['4', '5', '6']" (click)="addDigit(num)">
+        {{ num }}
+      </button>
 
-    <div class="btns-row">
-      <btn (click)="addDigit('0')"></btn>
-      <btn (click)="convertToDecimal()" value="."></btn>
-      <btn (click)="changeSign()" value="+/-"></btn>
-      <btn (click)="clear()" value="CE"></btn>
-    </div>
+      <button *ngFor="let num of ['1', '2', '3']" (click)="addDigit(num)">
+        {{ num }}
+      </button>
 
-    <div class="btn-col">
-      <btn value="=" (click)="onEqual()">=</btn>
+      <button (click)="convertToDecimal()" value=".">.</button>
+      <button (click)="addDigit('0')">0</button>
+      <button (click)="changeSign()" value="+/-">+/-</button>
+
+      <button value="=" (click)="onEqual()" class="equal-sign">=</button>
     </div>
   </div>
 </div>

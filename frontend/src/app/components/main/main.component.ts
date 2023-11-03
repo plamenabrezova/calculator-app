@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
-import { Observable, take } from 'rxjs';
+import { Observable } from 'rxjs';
 import { CalculateService } from 'src/app/services/calculator.service';
-import { Result, firstRowNumbers, secondRowNumbers, thirdRowNumbers, operations, numberModifiers } from 'src/app/shared/data';
+import { Result } from 'src/app/shared/models';
 
 @Component({
   selector: 'app-main',
@@ -9,38 +9,31 @@ import { Result, firstRowNumbers, secondRowNumbers, thirdRowNumbers, operations,
   styleUrls: ['./main.component.css']
 })
 export class MainComponent {
-  operations = operations
-  firstRowNumbers = firstRowNumbers
-  secondRowNumbers = secondRowNumbers
-  thirdRowNumbers = thirdRowNumbers
-  numberModifiers = numberModifiers
-
-
   // first
-  current: string | null = null
+  current: string = '0'
   // second
-  operand: string | null = null
-  result: string | null = null
+  operand: string = ''
+  result: string = ''
   operation: string | null = null
 
   constructor(private calculateService: CalculateService) { }
 
   addDigit(digit: string) {
     if (this.operation === null) {
-      this.current === null ? this.current = digit : this.current += digit
+      this.current === '0' || this.current === this.result  ? this.current = digit : this.current += digit
     } else {
-      this.operand === null ? this.operand = digit : this.operand += digit
+      this.operand === '' ? this.operand = digit : this.operand += digit
     }
   }
 
   convertToDecimal() {
-    if (this.current && !this.current.includes('.')) {
+    if (!this.current.includes('.')) {
       this.current += '.'
     }
   }
 
   changeSign() {
-    if (this.current && this.current.startsWith('-')) {
+    if (this.current.startsWith('-')) {
       this.current = this.current.slice(1)
     } else {
       this.current = "-" + this.current
@@ -48,9 +41,9 @@ export class MainComponent {
   }
 
   clear() {
-    this.result = null;
-    this.current = null;
-    this.operand = null;
+    this.current = '0';
+    this.operand = '';
+    this.result = '';
     this.operation = null;
   }
 
@@ -93,7 +86,7 @@ export class MainComponent {
       this.current = this.result;
     })
 
-    this.operand = null
+    this.operand = ''
     this.operation = null
 
   }

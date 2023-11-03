@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/internal/Observable';
 import { DIV_URL, MULTI_URL, SUB_URL, SUM_URL } from '../shared/urls';
-import { Result } from '../shared/data';
+import { Result } from '../shared/models';
 
 @Injectable({
   providedIn: 'root'
