@@ -17,16 +17,26 @@
   padding: 4rem 2rem 0 2rem;
 }
 
-.calculator__result p {
+.calculator__result input {
   width: 100%;
   font-size: 3rem;
-  border-radius: var(--border-radius);
+  border: none;
   background-color: var(--grey-500);
   color: var(--white);
   text-align: right;
   padding-right: 1.5rem;
   padding-left: 1.75rem;
   overflow: hidden;
+}
+
+.previous {
+  border-top-right-radius: var(--border-radius);
+  border-top-left-radius: var(--border-radius);
+}
+
+.current {
+  border-bottom-left-radius: var(--border-radius);
+  border-bottom-right-radius: var(--border-radius);
 }
 
 .calculator__keys {

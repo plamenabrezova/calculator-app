@@ -11,9 +11,9 @@ import { Result } from 'src/app/shared/models';
 })
 export class MainComponent {
   // first
-  current: string = '0';
+  current: string = '';
   // second
-  operand: string = '';
+  previous: string = '';
   operation: string | null = null;
   startSecondOperand: boolean = false
 
@@ -37,7 +37,7 @@ export class MainComponent {
         }
 
         this.current = params['num2'];
-        this.operand = params['num1'];
+        this.previous = params['num1'];
         this.calculate();
       } else {
         this.router.navigateByUrl('/')
@@ -46,17 +46,13 @@ export class MainComponent {
   }
 
   addDigit(digit: string): void {
-    if (this.startSecondOperand) {
-      this.current = digit
-      this.startSecondOperand = false
-    } else {
-      this.current === '0' ? this.current = digit : this.current += digit
-    }
+    if (this.current.length === 1 && this.current.startsWith('0')) this.current = digit;
+    else this.current += digit
   }
 
   convertToDecimal(): void {
     if (!this.current.includes('.')) {
-      this.current += '.';
+      this.current === '' ? this.current += '0.' : this.current += '.';
     }
   }
 
@@ -69,17 +65,29 @@ export class MainComponent {
   }
 
   clear(): void {
-    this.current = '0';
-    this.operand = '';
+    this.current = '';
+    this.previous = '';
     this.operation = null;
   }
 
   setOperation(operation: string): void {
-    if (this.operand === '') {
-      this.operand = this.current;
+    this.current === '' ?
+      this.setOperationForEmptyCurrent(operation) :
+      this.setOperationForNonEmptyCurrent(operation);
+  }
+
+  private setOperationForEmptyCurrent(operation: string): void {
+    if (this.previous === '') return
+    else this.operation = operation
+  }
+  private setOperationForNonEmptyCurrent(operation: string): void {
+    if (this.previous === '') {
+      this.operation = operation;
+      this.previous = this.current;
+      this.current = ''
+    } else {
+      this.operation = operation
     }
-    this.operation = operation;
-    this.startSecondOperand = true;
   }
 
   onEqual(): void {
@@ -90,25 +98,25 @@ export class MainComponent {
     let resultObservable: Observable<Result>
     switch (this.operation) {
       case '+':
-        resultObservable = this.calculateService.sum(Number(this.operand), Number(this.current));
+        resultObservable = this.calculateService.sum(Number(this.previous), Number(this.current));
         break;
       case '-':
-        resultObservable = this.calculateService.subtract(Number(this.operand), Number(this.current))
+        resultObservable = this.calculateService.subtract(Number(this.previous), Number(this.current))
         break
       case '*':
-        resultObservable = this.calculateService.multiply(Number(this.operand), Number(this.current));
+        resultObservable = this.calculateService.multiply(Number(this.previous), Number(this.current));
         break;
       case '/':
-        resultObservable = this.calculateService.division(Number(this.operand), Number(this.current))
+        resultObservable = this.calculateService.division(Number(this.previous), Number(this.current))
         break
       default:
         resultObservable = new Observable<Result>;
     }
 
     resultObservable.subscribe((result) => {
-      this.current = String(Object.values(result)[0]);
-      this.operand = this.current;
+      this.previous = String(Object.values(result)[0]);
     })
+    this.current = '';
     this.operation = null;
   }
 }
