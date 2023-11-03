@@ -1,4 +1,37 @@
 /* You can add global styles to this file, and also import other style files */
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@500;800");
+
+*,
+::after,
+::before {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: inherit;
+}
+
+html {
+  font-size: 100%;
+}
+
+:root {
+  /* colors */
+  --white: #fff;
+  --accent-900: #fcb103;
+  --accent-400: #face67;
+  --grey-100: #dee2e6;
+  --grey-500: #5c5c5c;
+  --grey-600: #454545;
+  --grey-700: #2e2e2e;
+  --grey-900: #303030;
+
+  --border-radius: 1rem;
+  --shadow: 0 1px 6px rgba(0, 0, 0, 0.12), 0 1px 4px rgba(0, 0, 0, 0.24);
+}
+
 body {
-    margin: 0;
+  font-family: "Montserrat", sans-serif;
+  background-color: var(--white);
+  color: var(--grey-900);
+  font-weight: 400;
 }
